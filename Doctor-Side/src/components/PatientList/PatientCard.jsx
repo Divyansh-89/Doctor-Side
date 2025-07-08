@@ -5,7 +5,7 @@ function isPastAppointment(formatted_time) {
   return Date.now() > dt.getTime();
 }
 
-export default function PatientCard({ patient, onClick, onMarkNoAppointment }) {
+export default function PatientCard({ patient, onClick, onMarkNoAppointmentClick }) {
   const showMarkNoAppointment =
     patient.appointment &&
     patient.appointment.active &&
@@ -20,9 +20,7 @@ export default function PatientCard({ patient, onClick, onMarkNoAppointment }) {
             <div className="appointment-time">
               Time: <span>{patient.appointment.formatted_time}</span>
             </div>
-            <div className="appointment-status-active">
-              Active
-            </div>
+            <div className="appointment-status-active">Active</div>
             {patient.appointment.isNew && (
               <span className="appointment-label-new">New</span>
             )}
@@ -30,8 +28,8 @@ export default function PatientCard({ patient, onClick, onMarkNoAppointment }) {
               <button
                 className="mark-no-appointment-btn"
                 onClick={e => {
-                  e.stopPropagation(); 
-                  onMarkNoAppointment(patient.id);
+                  e.stopPropagation();
+                  onMarkNoAppointmentClick();
                 }}
               >
                 Mark as No Appointment
@@ -40,9 +38,10 @@ export default function PatientCard({ patient, onClick, onMarkNoAppointment }) {
           </>
         ) : (
           <div>
-            <span className="appointment-status-no-appointment">
-              No appointment
-            </span>
+            <span className="appointment-status-no-appointment">No appointment</span>
+            {patient.notes && (
+              <div className="patient-notes">Notes: {patient.notes}</div>
+            )}
           </div>
         )}
       </div>

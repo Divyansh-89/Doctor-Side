@@ -1,5 +1,5 @@
 import React from "react";
-import defaultAvatar from '../../assets/istockphoto-610003972-612x612.jpg';
+import defaultAvatar from '../../assets/istockphoto-2077095666-612x612.jpg';
 
 export default function ProfileAvatarEdit({
   avatarUrl,

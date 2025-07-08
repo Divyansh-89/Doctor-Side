@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [user, setUser] = useState({
-    name: "Jane Doe",
+    name: "Dr. Jane Doe",
     email: "janedoe@gmail.com",
     avatarUrl: "",
     phone: "7898789878"
@@ -28,14 +28,12 @@ function App() {
         <Navbar />
         <div className="main-content">
           <Routes>
-            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/dashboard" element={<DashboardPage user={user} />} />
             <Route path="/patientList" element={<PatientListPage />} />
             <Route path="/doctorProfile" element={<DoctorProfilePage />} />
             <Route
               path="/profile"
-              element={
-                <ProfilePage user={user} onUpdateProfile={handleUpdateProfile} />
-              }
+              element={<ProfilePage user={user} onUpdateProfile={handleUpdateProfile} />}
             />
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
