@@ -14,23 +14,19 @@ export default function DoctorAchievements() {
         "Trained 50+ Medical Interns",
     ]);
 
-    const [newAchievement, setNewAchievement] = useState("");
-    const [message, setMessage] = useState("");
+    const [input, setInput] = useState("");
+    const [msg, setMsg] = useState("");
 
-    const handleAddAchievement = () => {
-        if (newAchievement.trim() !== "") {
-            setAchievements([...achievements, newAchievement.trim()]);
-            setNewAchievement("");
-            setMessage("Achievement added successfully!");
-            setTimeout(() => {
-                setMessage("");
-            }, 3000);
-        } else {
-            setMessage("Please enter an achievement.");
-            setTimeout(() => {
-                setMessage("");
-            }, 3000);
+    const addAchievement = () => {
+        if (!input.trim()) {
+            setMsg("Please enter an achievement.");
+            setTimeout(() => setMsg(""), 3000);
+            return;
         }
+        setAchievements(prev => [...prev, input.trim()]);
+        setInput("");
+        setMsg("Achievement added successfully!");
+        setTimeout(() => setMsg(""), 3000);
     };
 
     return (
@@ -38,23 +34,23 @@ export default function DoctorAchievements() {
             <h2>Achievements & Recognition</h2>
             <div className="achievements-list-container">
                 <ul>
-                    {achievements.map((item, idx) => (
-                        <li key={idx}>{item}</li>
+                    {achievements.map((ach, i) => (
+                        <li key={i}>{ach}</li>
                     ))}
                 </ul>
             </div>
             <div className="add-achievement-form">
                 <input
                     type="text"
-                    value={newAchievement}
-                    onChange={(e) => setNewAchievement(e.target.value)}
+                    value={input}
+                    onChange={e => setInput(e.target.value)}
                     placeholder="Add new achievement"
                 />
-                <button onClick={handleAddAchievement} className="animated-button">
+                <button onClick={addAchievement} className="animated-button">
                     Add
                 </button>
             </div>
-            {message && <div className="message">{message}</div>}
+            {msg && <div className="message">{msg}</div>}
         </section>
     );
 }

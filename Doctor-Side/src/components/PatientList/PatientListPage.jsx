@@ -14,55 +14,55 @@ export default function PatientListPage() {
   const [tab, setTab] = useState("active");
   const [isFading, setIsFading] = useState(false);
   const [patients, setPatients] = useState(initialPatients);
-  const [displayedPatients, setDisplayedPatients] = useState([]);
-  const [showNotesModal, setShowNotesModal] = useState(false);
-  const [selectedPatientId, setSelectedPatientId] = useState(null);
+  const [displayed, setDisplayed] = useState([]);
+  const [showNotes, setShowNotes] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   useEffect(() => {
     setIsFading(true);
     const timer = setTimeout(() => {
-      const filtered = patients.filter(patient => {
+      const filtered = patients.filter(p => {
         if (tab === "active") {
-          return patient.appointment && patient.appointment.active;
+          return p.appointment && p.appointment.active;
         }
-        return !patient.appointment || !patient.appointment.active;
+        return !p.appointment || !p.appointment.active;
       });
-      setDisplayedPatients(filtered);
+      setDisplayed(filtered);
       setIsFading(false);
     }, 350);
     return () => clearTimeout(timer);
   }, [tab, patients]);
 
-  const handleCardClick = (id) => {
+  const handleCardClick = id => {
     setPatients(prev =>
-      prev.map(patient =>
-        patient.id === id && patient.appointment && patient.appointment.isNew
-          ? { ...patient, appointment: { ...patient.appointment, isNew: false } }
-          : patient
+      prev.map(p =>
+        p.id === id && p.appointment && p.appointment.isNew
+          ? { ...p, appointment: { ...p.appointment, isNew: false } }
+          : p
       )
     );
   };
 
-  const handleMarkNoAppointmentClick = (id) => {
-    setSelectedPatientId(id);
-    setShowNotesModal(true);
+  const handleMarkNoAppointmentClick = id => {
+    setSelectedId(id);
+    setShowNotes(true);
   };
 
-  const handleSaveNotes = (notes) => {
+  const handleSaveNotes = notes => {
     setPatients(prev =>
-      prev.map(patient =>
-        patient.id === selectedPatientId
-          ? { ...patient, appointment: null, notes: notes }
-          : patient
+      prev.map(p =>
+        p.id === selectedId
+          ? { ...p, appointment: null, notes }
+          : p
       )
     );
-    setShowNotesModal(false);
-    setSelectedPatientId(null);
+    setShowNotes(false);
+    setSelectedId(null);
   };
 
   const handleCancelNotes = () => {
-    setShowNotesModal(false);
-    setSelectedPatientId(null);
+    setShowNotes(false);
+    setSelectedId(null);
   };
 
   return (
@@ -70,12 +70,12 @@ export default function PatientListPage() {
       <h2>Patient List</h2>
       <PatientTabs tabs={TABS} activeTab={tab} onTabChange={setTab} />
       <PatientList
-        patients={displayedPatients}
+        patients={displayed}
         isFading={isFading}
         onCardClick={handleCardClick}
         onMarkNoAppointmentClick={handleMarkNoAppointmentClick}
       />
-      {showNotesModal && (
+      {showNotes && (
         <NotesModal
           onSave={handleSaveNotes}
           onCancel={handleCancelNotes}

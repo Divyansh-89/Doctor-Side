@@ -1,4 +1,3 @@
-
 :root {
     --header-gradient: linear-gradient(90deg, #f5faff 0%, #e3f0ff 70%, #e0e7ef 100%);
     --header-hover-bg: linear-gradient(90deg, #e3f0ff 0%, #f5faff 100%);
@@ -37,6 +36,17 @@ body {
     min-height: 100vh;
 }
 
+a,
+a:visited,
+a:hover,
+a:focus,
+a:active {
+    text-decoration: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: normal !important;
+}
+
 .navbar {
     display: flex;
     align-items: center;
@@ -49,7 +59,6 @@ body {
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-normal);
     border: 1px solid #e0e7ef;
-    font-family: var(--font-family);
     transition:
         background var(--transition-speed) cubic-bezier(0.2, 0.8, 0.2, 1),
         box-shadow var(--transition-speed) cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -74,16 +83,11 @@ body {
 .navbar-logo {
     display: flex;
     align-items: center;
+    gap: var(--spacing-sm);
     font-family: 'Poppins', 'Inter', Arial, sans-serif;
     font-size: clamp(1.1rem, 2vw, 1.28rem);
     font-weight: 800;
     letter-spacing: 0.05em;
-    color: var(--text-primary);
-    background: linear-gradient(90deg, #223046 30%, #2563eb 80%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0.8px 1.6px 3.2px rgba(60, 130, 246, 0.06);
     user-select: none;
     margin: 0;
     padding: 0;
@@ -104,8 +108,19 @@ body {
     padding: 0;
     line-height: 1.2;
     text-decoration: none;
-    color: inherit;
+    color: var(--text-primary);
     cursor: pointer;
+    background: linear-gradient(90deg, #223046 30%, #2563eb 80%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0.8px 1.6px 3.2px rgba(60, 130, 246, 0.06);
+}
+
+.navbar-logo-image {
+    height: 30px;
+    width: auto;
+    vertical-align: middle;
 }
 
 .navbar-right {
@@ -406,6 +421,10 @@ body {
     .navbar-logo {
         font-size: 1.08rem;
         height: 36px;
+    }
+
+    .navbar-logo-image {
+        height: 24px;
     }
 }
 

@@ -2,17 +2,18 @@ import React from "react";
 import PatientCard from "./PatientCard";
 
 export default function PatientList({ patients, isFading, onCardClick, onMarkNoAppointmentClick }) {
-  if (patients.length === 0 && !isFading) {
+  if (!patients.length && !isFading) {
     return <div className="empty-state">No patients found.</div>;
   }
+
   return (
     <div className={`appointment-list${isFading ? " fade" : ""}`}>
-      {patients.map(patient => (
+      {patients.map(p => (
         <PatientCard
-          key={patient.id}
-          patient={patient}
-          onClick={() => onCardClick(patient.id)}
-          onMarkNoAppointmentClick={() => onMarkNoAppointmentClick(patient.id)}
+          key={p.id}
+          patient={p}
+          onClick={() => onCardClick(p.id)}
+          onMarkNoAppointmentClick={() => onMarkNoAppointmentClick(p.id)}
         />
       ))}
     </div>

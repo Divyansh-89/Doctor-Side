@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IoIosNotificationsOutline } from "react-icons/io";
 
 function getPersistedDismissed() {
-  return JSON.parse(localStorage.getItem("dismissed_doctor_notifications") || "[]");
+  const stored = localStorage.getItem("dismissed_doctor_notifications");
+  return stored ? JSON.parse(stored) : [];
 }
 
 function setPersistedDismissed(arr) {
@@ -10,40 +11,45 @@ function setPersistedDismissed(arr) {
 }
 
 export default function DoctorNotificationBell({ appointments = [] }) {
-  const [showNotifications, setShowNotifications] = useState(false);
+  const [show, setShow] = useState(false);
   const [dismissed, setDismissed] = useState(getPersistedDismissed());
 
-  React.useEffect(() => {
+  useEffect(() => {
     setPersistedDismissed(dismissed);
   }, [dismissed]);
 
-  const notifications = appointments.map(a => ({
-    id: `appointment-${a.id}`,
-    text: `Upcoming: ${a.name} at ${a.formatted_time}${a.isNew ? " (New)" : ""}.`,
-  })).filter(n => !dismissed.includes(n.id));
+  const notifications = appointments
+    .map(a => ({
+      id: `appointment-${a.id}`,
+      text: `Upcoming: ${a.name} at ${a.formatted_time}${a.isNew ? " (New)" : ""}.`,
+    }))
+    .filter(n => !dismissed.includes(n.id));
 
   const handleRead = id => setDismissed(prev => [...prev, id]);
 
   return (
     <div className="notification-bell-container">
-      <div className="notification-bell" onClick={() => setShowNotifications(!showNotifications)}>
+      <div
+        className="notification-bell"
+        onClick={() => setShow(!show)}
+      >
         <IoIosNotificationsOutline size={24} />
         {notifications.length > 0 && (
           <span className="notification-count">{notifications.length}</span>
         )}
       </div>
 
-      {showNotifications && (
+      {show && (
         <div className="notification-dropdown">
           <h4>Upcoming Appointments</h4>
           <ul>
             {notifications.length === 0 ? (
               <li>No new appointments.</li>
             ) : (
-              notifications.map(notif => (
-                <li key={notif.id}>
-                  {notif.text}
-                  <button onClick={() => handleRead(notif.id)}>Mark as Read</button>
+              notifications.map(n => (
+                <li key={n.id}>
+                  {n.text}
+                  <button onClick={() => handleRead(n.id)}>Mark as Read</button>
                 </li>
               ))
             )}

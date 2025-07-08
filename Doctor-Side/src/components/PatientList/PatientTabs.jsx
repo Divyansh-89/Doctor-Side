@@ -3,13 +3,13 @@ import React from "react";
 export default function PatientTabs({ tabs, activeTab, onTabChange }) {
   return (
     <div className="tabs">
-      {tabs.map(t => (
+      {tabs.map(tab => (
         <button
-          key={t.key}
-          className={`tab-btn${activeTab === t.key ? " active" : ""}`}
-          onClick={() => onTabChange(t.key)}
+          key={tab.key}
+          className={`tab-btn${activeTab === tab.key ? " active" : ""}`}
+          onClick={() => onTabChange(tab.key)}
         >
-          {t.label}
+          {tab.label}
         </button>
       ))}
     </div>

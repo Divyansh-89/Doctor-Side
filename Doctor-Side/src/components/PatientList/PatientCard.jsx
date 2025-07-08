@@ -1,7 +1,7 @@
 import React from "react";
 
-function isPastAppointment(formatted_time) {
-  const dt = new Date(formatted_time);
+function isPastAppointment(time) {
+  const dt = new Date(time);
   return Date.now() > dt.getTime();
 }
 
@@ -12,7 +12,11 @@ export default function PatientCard({ patient, onClick, onMarkNoAppointmentClick
     isPastAppointment(patient.appointment.formatted_time);
 
   return (
-    <div className="appointment-card" onClick={onClick} style={{ position: "relative" }}>
+    <div
+      className="appointment-card"
+      onClick={onClick}
+      style={{ position: "relative" }}
+    >
       <strong>{patient.name}</strong>
       <div className="appointment-details">
         {patient.appointment && patient.appointment.active ? (
@@ -38,7 +42,9 @@ export default function PatientCard({ patient, onClick, onMarkNoAppointmentClick
           </>
         ) : (
           <div>
-            <span className="appointment-status-no-appointment">No appointment</span>
+            <span className="appointment-status-no-appointment">
+              No appointment
+            </span>
             {patient.notes && (
               <div className="patient-notes">Notes: {patient.notes}</div>
             )}

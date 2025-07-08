@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 
 export default function DoctorWorkDetails() {
-    const [extraHours, setExtraHours] = useState(0);
-    const [saturdaysWorked, setSaturdaysWorked] = useState(0);
-    const [sundaysWorked, setSundaysWorked] = useState(0);
-    const [message, setMessage] = useState("");
+    const [hours, setHours] = useState(0);
+    const [sat, setSat] = useState(0);
+    const [sun, setSun] = useState(0);
+    const [msg, setMsg] = useState("");
 
-    const handleSave = () => {
-        setMessage("Work details updated successfully!");
-        setTimeout(() => setMessage(""), 3000);
+    const saveDetails = () => {
+        setMsg("Work details updated successfully!");
+        setTimeout(() => setMsg(""), 3000);
     };
 
     return (
@@ -22,8 +22,8 @@ export default function DoctorWorkDetails() {
                             type="number"
                             min="0"
                             max="40"
-                            value={extraHours}
-                            onChange={(e) => setExtraHours(Number(e.target.value))}
+                            value={hours}
+                            onChange={e => setHours(Number(e.target.value))}
                         />
                     </label>
                 </div>
@@ -34,8 +34,8 @@ export default function DoctorWorkDetails() {
                             type="number"
                             min="0"
                             max="5"
-                            value={saturdaysWorked}
-                            onChange={(e) => setSaturdaysWorked(Number(e.target.value))}
+                            value={sat}
+                            onChange={e => setSat(Number(e.target.value))}
                         />
                     </label>
                 </div>
@@ -46,16 +46,16 @@ export default function DoctorWorkDetails() {
                             type="number"
                             min="0"
                             max="5"
-                            value={sundaysWorked}
-                            onChange={(e) => setSundaysWorked(Number(e.target.value))}
+                            value={sun}
+                            onChange={e => setSun(Number(e.target.value))}
                         />
                     </label>
                 </div>
             </div>
-            <button onClick={handleSave} className="save-button animated-button">
+            <button onClick={saveDetails} className="save-button animated-button">
                 Save
             </button>
-            {message && <div className="message">{message}</div>}
+            {msg && <div className="message">{msg}</div>}
         </section>
     );
 }

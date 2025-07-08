@@ -12,8 +12,28 @@ const doctorQuotes = [
   "Medicine is a science of uncertainty and an art of probability.",
 ];
 
+function TopAppointmentsList({ appointments }) {
+  if (!appointments.length) {
+    return <p>No upcoming appointments.</p>;
+  }
+  return (
+    <div className="top-appointments-grid">
+      {appointments.map(app => (
+        <div
+          key={app.id}
+          className={`appointment-box${app.isNew ? " new-appointment-box" : ""}`}
+        >
+          <div className="appointment-name">{app.name}</div>
+          <div className="appointment-time">{app.formatted_time}</div>
+          {app.isNew && <span className="appointment-new-badge">New</span>}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function DoctorDashboardPage({ user, alerts = [] }) {
-  const selectedQuote = doctorQuotes[Math.floor(Math.random() * doctorQuotes.length)];
+  const quote = doctorQuotes[Math.floor(Math.random() * doctorQuotes.length)];
 
   const upcomingAppointments = patientsData
     .filter(p => p.appointment && p.appointment.active)
@@ -29,7 +49,11 @@ export default function DoctorDashboardPage({ user, alerts = [] }) {
     <div className="container">
       <div className="dashboard-container">
         <div className="dashboard-left">
-          <DoctorDashboardGreeting user={user} avatar={user.avatarUrl || defaultDoctorAvatar} quote={selectedQuote} />
+          <DoctorDashboardGreeting
+            user={user}
+            avatar={user.avatarUrl || defaultDoctorAvatar}
+            quote={quote}
+          />
         </div>
         <div className="dashboard-right">
           <DoctorNotificationBell appointments={upcomingAppointments} />
@@ -39,24 +63,6 @@ export default function DoctorDashboardPage({ user, alerts = [] }) {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function TopAppointmentsList({ appointments }) {
-  if (!appointments.length) {
-    return <p>No upcoming appointments.</p>;
-  }
-
-  return (
-    <div className="top-appointments-grid">
-      {appointments.map(app => (
-        <div key={app.id} className={`appointment-box ${app.isNew ? "new-appointment-box" : ""}`}>
-          <div className="appointment-name">{app.name}</div>
-          <div className="appointment-time">{app.formatted_time}</div>
-          {app.isNew && <span className="appointment-new-badge">New</span>}
-        </div>
-      ))}
     </div>
   );
 }
